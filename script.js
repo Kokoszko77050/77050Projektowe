@@ -11,7 +11,7 @@ function ZmienMotyw77050() {
     }
 }
 
-function PokazUkryj(sectionId) {
+function PokazUkryj77050(sectionId) {
     const section = document.getElementById(sectionId);
 
     if (section.style.display === "none") {
