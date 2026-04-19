@@ -71,4 +71,4 @@ document.getElementById("Formularz").addEventListener("submit", function(e) {
   if (czyPoprawne) {
     sukces.textContent = "Formularz został poprawnie wypełniony!";
   }
-});
+})
