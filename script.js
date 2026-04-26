@@ -1,3 +1,4 @@
+// zmiana motywu
 let AktywnyMotyw = "red";
 function ZmienMotyw77050() {
     const LinkDoMotywu = document.getElementById("stylesheet");
@@ -11,6 +12,7 @@ function ZmienMotyw77050() {
     }
 }
 
+// pokazanie/ukrycie sekcji
 function PokazUkryj77050(sectionId) {
     const section = document.getElementById(sectionId);
 
@@ -21,6 +23,7 @@ function PokazUkryj77050(sectionId) {
     }
 }
 
+// walidacja danych z formularza
 document.getElementById("Formularz").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -72,3 +75,34 @@ document.getElementById("Formularz").addEventListener("submit", function(e) {
     sukces.textContent = "Formularz został poprawnie wypełniony!";
   }
 })
+
+// pobranie danych z JSON i wyświetlenie ich na stronie
+async function WczytajDane(file) {
+  try {
+    let myObject = await fetch(file);
+     if (!myObject.ok) {
+      throw new Error(`Status: ${myObject.status}`);
+    }
+    let myText = await myObject.json();
+
+    const ListaUmiejetnosci = document.getElementById('ListaUmiejetnosci');
+    const ListaProjekty = document.getElementById('ListaProjekty');
+
+    myText.Umiejetnosci.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      ListaUmiejetnosci.appendChild(li);
+    });
+
+    myText.Projekty.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      ListaProjekty.appendChild(li);
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+WczytajDane('data.json');
