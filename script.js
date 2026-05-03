@@ -104,5 +104,62 @@ async function WczytajDane(file) {
     console.error('Error:', error);
   }
 }
-
 WczytajDane('data.json');
+
+// zapisanie notatek do localStorage
+function ZapiszNotatke(Notatka) {
+  localStorage.setItem("Notatki", JSON.stringify(Notatka));
+}
+
+// pobieranie notatek z localStorage
+function PobierzNotatke() {
+  return JSON.parse(localStorage.getItem("Notatki")) || [];
+}
+
+// usuwanie notatki
+function UsunNotatke(Indeks) {
+  const Notatki = PobierzNotatke();
+
+  Notatki.splice(Indeks, 1);
+  ZapiszNotatke(Notatki);
+
+  WyswietlNotatke();
+}
+
+// wyświetlanie notatek na stronie
+function WyswietlNotatke() {
+  const Notatka = PobierzNotatke();
+  const ListaNotatek = document.getElementById("ListaNotatek");
+
+  ListaNotatek.innerHTML = "";
+
+  Notatka.forEach((Notatka, Indeks) => {
+    const Element = document.createElement("li");
+    Element.textContent = Notatka;
+
+    const Przycisk = document.createElement("button");
+    Przycisk.textContent = "Usuń";
+    Przycisk.onclick = () => UsunNotatke(Indeks);
+
+    Element.appendChild(document.createTextNode("   "));
+    Element.appendChild(Przycisk);
+    ListaNotatek.appendChild(Element);
+  });
+}
+
+// dodawanie nowej notatki
+function DodajNotatke() {
+  const PoleDodawaniaNotatki = document.getElementById("DodajNotatkę");
+  const Notatka = PobierzNotatke();
+
+  if (PoleDodawaniaNotatki.value.trim() === "") return;
+
+  Notatka.push(PoleDodawaniaNotatki.value);
+  ZapiszNotatke(Notatka);
+
+  PoleDodawaniaNotatki.value = "";
+  WyswietlNotatke();
+}
+
+// wyświetlenie notatek po załadowaniu strony
+document.addEventListener("DOMContentLoaded", WyswietlNotatke);
